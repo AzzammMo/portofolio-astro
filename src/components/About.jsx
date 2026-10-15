@@ -22,10 +22,7 @@ export default function About() {
             <p className="text-lg">
               I'm <b>Muh. Azzam Izzadin</b>, a{" "}
               <span className="rounded border-2 px-1 font-bold" style={{ background: "var(--c3)", color: "#1b1b3a", borderColor: "#1b1b3a" }}>fullstack developer</span>
-              . Laravel is my primary stack and the foundation of most of the projects I've built. I have a strong affinity for the PHP ecosystem, and I also work with JavaScript frameworks such as React.js and Next.js, though to a lesser extent than PHP.
-            </p>
-            <p className="mt-4">
-              My work spans the full development lifecycle: backend and frontend development, database management, API integration, testing, UAT, penetration testing, debugging, and deployment. Beyond shipping features, I focus on performance optimization, efficient request handling, and sound system architecture, building secure, maintainable applications that stay reliable under real-world load.
+              {" "}and an avid explorer of the PHP ecosystem, with Laravel at the core of my daily work. I also work with several JavaScript frameworks, including Next.js and React, but my strongest focus today is building and optimizing PHP applications, with an emphasis on server-side system optimization, architecture, and performance.
             </p>
           </div>
 

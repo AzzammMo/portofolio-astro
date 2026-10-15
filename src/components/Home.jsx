@@ -13,7 +13,6 @@ const SHAPES = [
 const TICKER = [
   "Ga PHP Ga Makan $",
   "PHP is Koentji",
-
 ];
 
 function useTyper(words) {
@@ -57,8 +56,9 @@ export default function Home() {
           </h1>
 
           {/* margin atas ekstra agar tulisan "Hey!" tidak menutupi nama */}
-          <p className="mt-6 text-xl font-semibold sm:text-3xl">
-            I'm <span className="rounded-lg border-[3px] px-2" style={{ background: "var(--c2)", color: "#1b1b3a", borderColor: "#1b1b3a" }}>Muh. Azzam Izzadin</span>
+          <p className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:justify-start">
+            <span className="text-2xl font-semibold sm:text-3xl">I'm</span>
+            <span className="inline-block rounded-xl border-[3px] px-4 py-1 text-4xl font-bold sm:text-5xl lg:text-6xl" style={{ background: "var(--c2)", color: "#1b1b3a", borderColor: "#1b1b3a", boxShadow: "4px 4px 0 #1b1b3a" }}>Azzam</span>
           </p>
           <p className="k-cursor mt-4 h-8 text-lg font-bold sm:text-2xl">{role}</p>
 
@@ -83,7 +83,7 @@ export default function Home() {
 
       <div className="relative z-[1] mt-8 overflow-hidden border-y-[3px] py-3" style={{ background: "var(--c1)", borderColor: "#1b1b3a", color: "#1b1b3a" }}>
         <div className="k-marquee text-xl font-bold">
-          {[...TICKER, ...TICKER, ...TICKER, ...TICKER].map((s, i) => (
+          {Array(8).fill(TICKER).flat().map((s, i) => (
             <span key={i} className="mx-6 whitespace-nowrap">{s} <span className="k-spin inline-block">✦</span></span>
           ))}
         </div>
