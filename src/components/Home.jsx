@@ -11,14 +11,9 @@ const SHAPES = [
 ];
 // Teks wrap berjalan. Ubah isinya di sini.
 const TICKER = [
-  "No PHP, no $, no lunch 🍜",
-  "Laravel",
-  "React.js",
-  "<?php echo 'Hello, world'; ?>",
-  "Next.js",
-  "$ git commit -m \"it works\"",
-  "Tailwind CSS",
-  "sudo make coffee ☕",
+  "Ga PHP Ga Makan $",
+  "PHP is Koentji",
+
 ];
 
 function useTyper(words) {
@@ -48,7 +43,8 @@ export default function Home() {
         <span key={i} aria-hidden className="k-drift" style={{ left: x, top: y, "--sc": c, "--t": `${t}s` }}>{ch}</span>
       ))}
 
-      <div className="k-wrap grid w-full items-center gap-10 lg:grid-cols-2">
+      {/* Flex (bukan grid 2 kolom sama lebar) supaya teks dan kucing berdekatan dan tetap di tengah di layar web */}
+      <div className="k-wrap flex w-full flex-col items-center gap-10 lg:flex-row lg:justify-center lg:gap-10">
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
           <span className="k-sticker k-bob px-4 py-1 text-sm font-bold" style={{ transform: "rotate(-3deg)", background: "var(--c3)", color: "#1b1b3a" }}>
             Don't be shy — say hi! 👋
@@ -72,10 +68,11 @@ export default function Home() {
           </div> */}
         </div>
 
-        <div className="flex justify-center"><CatCoder /></div>
+        <div className="flex w-full max-w-md justify-center lg:w-[26rem] lg:shrink-0"><CatCoder /></div>
       </div>
 
-      <div className="k-wrap mt-10 grid w-full grid-cols-2 items-end justify-items-center gap-x-2 gap-y-10 px-2 pt-10 sm:grid-cols-3 lg:grid-cols-5">
+      {/* 4 karakter dipusatkan: flex + justify-center menggantikan grid 5 kolom yang menyisakan kolom kosong */}
+      <div className="k-wrap mt-10 flex w-full flex-wrap items-end justify-center gap-x-6 gap-y-10 px-2 pt-10 sm:gap-x-10">
         {KINDS.map((k, i) => (
           <div key={k} className={i % 2 ? "translate-y-4" : ""} style={{ animation: `k-bob ${3 + i * 0.4}s ease-in-out ${i * 0.3}s infinite` }}>
             <Character kind={k} className="w-32 sm:w-36" />
