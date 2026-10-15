@@ -1,0 +1,95 @@
+/* Tema stiker kartun. Diimpor SETELAH global.css di Layout.astro. Semua kelas berawalan "k-". */
+:root {
+  --bg: #fff1c9; --ink: #1b1b3a; --card: #ffffff; --soft: #fff8e4;
+  --c1: #ffd23f; --c2: #ff6b9d; --c3: #4cc9f0; --c4: #7ae582; --c5: #b388ff; --c6: #ff9f1c;
+}
+.dark { --bg: #15152e; --ink: #f7f3e8; --card: #252552; --soft: #1d1d40; }
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--ink); font-family: "Fredoka", "Poppins", system-ui, sans-serif;
+  background-color: var(--bg);
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 14%, transparent) 2px, transparent 2px);
+  background-size: 26px 26px; transition: background-color .5s, color .5s;
+}
+
+/* ---------- komponen ---------- */
+.k-sticker { background: var(--card); color: var(--ink); border: 3px solid var(--ink); border-radius: 1.25rem; box-shadow: 6px 6px 0 var(--ink); }
+.k-btn { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; padding: .75rem 1.5rem; border: 3px solid #1b1b3a; border-radius: 999px; color: #1b1b3a; box-shadow: 4px 4px 0 #1b1b3a; transition: transform .15s, box-shadow .15s; cursor: pointer; }
+.k-btn:hover { transform: translate(-2px, -2px) rotate(-1.5deg); box-shadow: 7px 7px 0 #1b1b3a; }
+.k-btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 #1b1b3a; }
+.k-btn:disabled { opacity: .6; cursor: not-allowed; }
+.k-h2 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; line-height: 1.05; display: inline-block; padding: .2rem 1.2rem; background: var(--c1); color: #1b1b3a; border: 3px solid #1b1b3a; border-radius: 1rem; box-shadow: 5px 5px 0 #1b1b3a; transform: rotate(-2deg); }
+.k-section { position: relative; overflow: hidden; padding: 6rem 1.25rem; }
+.k-wrap { position: relative; z-index: 1; margin: 0 auto; max-width: 72rem; }
+.k-tag { margin: .4rem auto 0; width: max-content; padding: .1rem .8rem; font-size: .85rem; font-weight: 700; background: var(--card); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px; box-shadow: 3px 3px 0 var(--ink); }
+.k-shadow { height: 10px; width: 60%; margin: -4px auto 0; border-radius: 50%; background: var(--ink); opacity: .25; animation: k-shadow 3.2s ease-in-out infinite; }
+.k-bubble { position: absolute; left: 0; right: 0; top: -2.6rem; margin: auto; width: max-content; max-width: 14rem; z-index: 20; padding: .35rem .9rem; font-size: .85rem; font-weight: 700; text-align: center; color: #1b1b3a; background: #fff; border: 3px solid #1b1b3a; border-radius: 1rem; box-shadow: 3px 3px 0 #1b1b3a; animation: k-pop .35s cubic-bezier(.3, 1.6, .5, 1) both; }
+.k-title { font-size: clamp(5rem, 17vw, 9.5rem); line-height: 1.15; padding-bottom: .12em; font-weight: 700; display: flex; gap: .02em; }
+.k-title span { display: inline-block; color: var(--lc); -webkit-text-stroke: 5px #1b1b3a; paint-order: stroke fill; text-shadow: 7px 7px 0 #1b1b3a; animation: k-letter .8s cubic-bezier(.3, 1.6, .5, 1) both, k-bob 3s ease-in-out infinite; animation-delay: var(--d), calc(var(--d) + .9s); }
+.k-cursor::after { content: "▌"; margin-left: 2px; animation: k-caret .8s steps(1) infinite; }
+.k-field { width: 100%; padding: .85rem 1rem; font: inherit; color: #1b1b3a; background: #fff; border: 3px solid #1b1b3a; border-radius: 1rem; box-shadow: 4px 4px 0 #1b1b3a; transition: transform .15s, box-shadow .15s; }
+.k-field:focus { outline: none; transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--c3); }
+.k-marquee { display: flex; width: max-content; animation: k-marquee 24s linear infinite; }
+.k-modal { animation: k-pop .35s cubic-bezier(.3, 1.6, .5, 1) both; }
+.touch-bubble { position: fixed; z-index: 70; width: 18px; height: 18px; margin: -9px; border-radius: 50%; border: 3px solid var(--c2); pointer-events: none; animation: k-ripple .6s ease-out forwards; }
+
+/* ---------- animasi ---------- */
+.k-float { animation: k-float 3.4s ease-in-out infinite; }
+.k-jump { animation: k-jump .75s cubic-bezier(.3, 1.4, .5, 1); }
+.k-blink { transform-box: fill-box; transform-origin: center; animation: k-blink 4.5s infinite; }
+.k-wiggle { animation: k-wig 1.6s ease-in-out infinite; }
+.k-pin { animation: k-pin 1.4s ease-in-out infinite; }
+.k-key { transform-box: fill-box; animation: k-keypress 1.6s ease-in-out infinite; }
+.k-arc { animation: k-arc 1.5s ease-in-out infinite; }
+.k-drift { position: absolute; z-index: 0; font-size: 2.2rem; font-weight: 700; color: var(--sc); -webkit-text-stroke: 2px #1b1b3a; animation: k-drift var(--t, 8s) ease-in-out infinite; }
+.k-bob { animation: k-bob 3.4s ease-in-out infinite; }
+.k-spin { animation: k-spin 9s linear infinite; }
+.k-fly { animation: k-fly 2s ease-in-out infinite; }
+
+@keyframes k-float { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-14px) rotate(1.5deg); } }
+@keyframes k-shadow { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.7); opacity: .15; } }
+@keyframes k-jump { 0% { transform: translateY(0) scale(1, 1); } 20% { transform: translateY(6px) scale(1.12, .86); } 50% { transform: translateY(-46px) scale(.92, 1.1) rotate(8deg); } 80% { transform: translateY(0) scale(1.1, .9); } 100% { transform: scale(1); } }
+@keyframes k-blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.08); } }
+@keyframes k-wig { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+@keyframes k-pin { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+@keyframes k-keypress { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(3px); fill: #ffd23f; } }
+@keyframes k-arc { 0%, 100% { opacity: .2; } 40% { opacity: 1; } }
+@keyframes k-letter { from { opacity: 0; transform: translateY(80px) scale(.3) rotate(-25deg); } to { opacity: 1; transform: none; } }
+@keyframes k-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+@keyframes k-pop { from { opacity: 0; transform: scale(.4) translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes k-drift { 0%, 100% { transform: translate(0, 0) rotate(0); } 33% { transform: translate(18px, -26px) rotate(90deg); } 66% { transform: translate(-16px, 12px) rotate(200deg); } }
+@keyframes k-marquee { to { transform: translateX(-50%); } }
+@keyframes k-caret { 50% { opacity: 0; } }
+@keyframes k-spin { to { transform: rotate(360deg); } }
+@keyframes k-fly { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(8px, -8px) rotate(12deg); } }
+@keyframes k-ripple { to { transform: scale(5); opacity: 0; } }
+
+/* ---------- loader terminal ---------- */
+.k-loader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 1rem; background: #ffd23f; transition: transform .7s cubic-bezier(.7, 0, .2, 1); }
+.k-loader.done { transform: translateY(-100%); }
+.k-term { width: min(30rem, 100%); background: #1b1b3a; color: #7ae582; border: 3px solid #1b1b3a; border-radius: 1rem; box-shadow: 8px 8px 0 #fff; overflow: hidden; font-family: ui-monospace, Consolas, monospace; }
+.k-term-bar { display: flex; align-items: center; gap: .4rem; padding: .5rem .8rem; background: #fff; color: #1b1b3a; font-size: .75rem; font-weight: 700; }
+.k-term-bar i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #1b1b3a; background: #ff6b9d; }
+.k-term-bar i:nth-child(2) { background: #ffd23f; } .k-term-bar i:nth-child(3) { background: #7ae582; }
+.k-term-bar span { margin-left: .5rem; }
+.k-term pre { margin: 0; padding: 1rem; min-height: 9rem; font-size: .9rem; line-height: 1.6; white-space: pre-wrap; }
+.k-term-track { height: 14px; margin: 0 1rem 1rem; border: 2px solid #7ae582; border-radius: 99px; overflow: hidden; }
+.k-term-track b { display: block; height: 100%; width: 0; background: #7ae582; transition: width .35s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- kucing ngoding ---------- */
+.k-tap { animation: k-tap .38s ease-in-out infinite; }
+.k-tail { transform-origin: 26px 195px; animation: k-tailsway 1.8s ease-in-out infinite; }
+.k-nod { transform-origin: 76px 115px; animation: k-nod 2.4s ease-in-out infinite; }
+.k-line { transform-box: fill-box; transform-origin: left center; animation: k-line 3.6s ease-out infinite; animation-delay: var(--d); }
+.k-caretb { animation: k-caret .7s steps(1) infinite; }
+.k-rise { animation: k-rise 3s ease-out infinite; animation-delay: var(--d); }
+@keyframes k-tap { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+@keyframes k-tailsway { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+@keyframes k-nod { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateY(2px); } }
+@keyframes k-line { 0% { transform: scaleX(0); opacity: 1; } 35%, 88% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes k-rise { 0% { transform: translateY(20px); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-34px); opacity: 0; } }

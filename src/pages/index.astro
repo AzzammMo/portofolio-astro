@@ -1,16 +1,20 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import Loader from "../components/Loader.astro";
+import Home from "../components/Home.jsx";
+import About from "../components/About.jsx";
+import Project from "../components/Project.jsx";
+import Certifications from "../components/Certifications.jsx";
+import Contact from "../components/Contact.jsx";
+import Companion from "../components/Companion.jsx";
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Azzam | Frontend Developer">
+  <Loader />
+  <!-- Tanpa navbar: halaman langsung hero animasi, lalu scroll ke bawah. id section dipakai Companion -->
+  <section id="home"><Home client:only="react" /></section>
+  <section id="about"><About client:only="react" /></section>
+  <section id="project"><Project client:only="react" /></section>
+  <section id="certifications"><Certifications client:only="react" /></section>
+  <section id="contact"><Contact client:only="react" /></section>
+  <Companion client:only="react" />
+</Layout>

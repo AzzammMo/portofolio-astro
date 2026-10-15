@@ -1,0 +1,63 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html { scroll-behavior: smooth; font-family: "Poppins", ui-sans-serif, system-ui, sans-serif; }
+
+/* ---------- Mascot ---------- */
+.svg-part { transform-box: fill-box; }
+.m-float  { animation: m-float 3.6s ease-in-out infinite; }
+.m-shadow { animation: m-shadow 3.6s ease-in-out infinite; transform-origin: center; }
+.m-wave   { transform-origin: 15% 85%; animation: m-wave 1.8s ease-in-out infinite; }
+.m-blink  { transform-origin: center; animation: m-blink 4.5s infinite; }
+.m-antenna{ transform-origin: 50% 100%; animation: m-sway 2.4s ease-in-out infinite; }
+.m-foot-l { animation: m-step 1.2s ease-in-out infinite; }
+.m-foot-r { animation: m-step 1.2s ease-in-out .6s infinite; }
+.m-jump   { animation: m-jump .7s cubic-bezier(.3,1.6,.5,1); }
+.m-bubble { animation: m-pop .35s cubic-bezier(.3,1.6,.5,1) both; }
+
+@keyframes m-float  { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-14px) } }
+@keyframes m-shadow { 0%,100% { transform: scaleX(1); opacity: .25 } 50% { transform: scaleX(.8); opacity: .12 } }
+@keyframes m-wave   { 0%,60%,100% { transform: rotate(0) } 10%,30%,50% { transform: rotate(-24deg) } 20%,40% { transform: rotate(10deg) } }
+@keyframes m-blink  { 0%,94%,100% { transform: scaleY(1) } 97% { transform: scaleY(.08) } }
+@keyframes m-sway   { 0%,100% { transform: rotate(-8deg) } 50% { transform: rotate(8deg) } }
+@keyframes m-step   { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-4px) } }
+@keyframes m-jump   { 0% { transform: translateY(0) scale(1,1) } 30% { transform: translateY(8px) scale(1.06,.92) } 60% { transform: translateY(-46px) scale(.96,1.06) } 100% { transform: translateY(0) scale(1,1) } }
+@keyframes m-pop    { from { opacity: 0; transform: scale(.4) translateY(10px) } to { opacity: 1; transform: scale(1) translateY(0) } }
+
+/* ---------- Background drift & clock ---------- */
+.drift { animation: drift var(--d, 14s) ease-in-out infinite alternate; }
+@keyframes drift { from { transform: translate(0,0) scale(1) } to { transform: translate(var(--x, 30px), var(--y, -50px)) scale(1.15) } }
+.digit-pop { animation: digit-pop .45s cubic-bezier(.3,1.5,.5,1); }
+@keyframes digit-pop { from { transform: translateY(-40%) rotateX(70deg); opacity: 0 } to { transform: none; opacity: 1 } }
+.caret::after { content: "|"; margin-left: 2px; animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0 } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+
+/* ---------- Tambahan: loader, progress scroll, modal, ripple, dll ---------- */
+#loader { animation: loader-out .6s 2.2s forwards; }
+@keyframes loader-out { to { opacity: 0; visibility: hidden; } }
+.loader-ball { animation: loader-bounce .7s ease-in-out infinite alternate; }
+@keyframes loader-bounce { from { transform: translateY(0) scale(1.1,.9) } to { transform: translateY(-38px) scale(.95,1.05) } }
+.loader-bar { width: 0; animation: loader-fill 2s ease-in-out forwards; }
+@keyframes loader-fill { to { width: 100% } }
+
+.progress { transform-origin: 0 50%; transform: scaleX(0); animation: progress linear both; animation-timeline: scroll(root); }
+@keyframes progress { to { transform: scaleX(1) } }
+
+.animate-shake { animation: shake .5s ease-in-out 3; }
+@keyframes shake { 0%,100% { transform: rotate(0) } 25% { transform: rotate(-14deg) } 75% { transform: rotate(14deg) } }
+
+.modal-pop { animation: modal-pop .35s cubic-bezier(.3,1.4,.5,1) both; }
+@keyframes modal-pop { from { opacity: 0; transform: scale(.85) translateY(20px) } to { opacity: 1; transform: none } }
+
+.fly { animation: fly 1.4s ease-in forwards .3s; }
+@keyframes fly { to { transform: translate(120px,-60px) rotate(20deg); opacity: 0 } }
+
+.touch-bubble { position: fixed; width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 50%; background: rgba(125,211,252,.45); pointer-events: none; z-index: 70; animation: bubble .6s ease-out forwards; }
+@keyframes bubble { from { transform: scale(0) } to { transform: scale(3); opacity: 0 } }
+
+/* Swiper mengikuti tema situs */
+.swiper { --swiper-theme-color: #facc15; --swiper-navigation-size: 28px; }

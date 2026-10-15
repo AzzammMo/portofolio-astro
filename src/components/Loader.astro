@@ -1,0 +1,38 @@
+<div id="loader" class="k-loader" aria-hidden="true">
+  <div class="k-term">
+    <div class="k-term-bar"><i></i><i></i><i></i><span>azzam@portfolio:~</span></div>
+    <pre id="loader-out"></pre>
+    <div class="k-term-track"><b id="loader-fill"></b></div>
+  </div>
+</div>
+
+<script>
+  const el = document.getElementById("loader");
+  if (el) {
+    const out = document.getElementById("loader-out")!;
+    const fill = document.getElementById("loader-fill")!;
+    const L = [
+      "$ npm run dev",
+      "> booting portofolio-azzam ...",
+      "> loading assets ........... ok",
+      "> waking up 5 robots ....... ok",
+      "> compiling good vibes ..... ok",
+      "> ready ✓",
+    ];
+    let i = 0;
+    const step = () => {
+      if (i >= L.length) {
+        setTimeout(() => {
+          el.classList.add("done");
+          setTimeout(() => el.remove(), 800);
+        }, 450);
+        return;
+      }
+      out.textContent += L[i] + "\n";
+      fill.style.width = ((i + 1) / L.length) * 100 + "%";
+      i++;
+      setTimeout(step, 380);
+    };
+    step();
+  }
+</script>
