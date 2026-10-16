@@ -32,7 +32,8 @@ const { title = "Azzam | Portfolio" } = Astro.props;
     <button id="theme-toggle" transition:persist aria-label="Ganti tema"
       class="k-sticker fixed top-3 right-3 z-50 grid h-10 w-10 place-items-center text-lg transition hover:rotate-12 hover:scale-110 active:scale-90"
       style="box-shadow:3px 3px 0 var(--ink)">
-      ◐
+      <span class="t-sun" aria-hidden="true">☀️</span>
+      <span class="t-moon" aria-hidden="true">🌙</span>
     </button>
     <slot />
   </body>
