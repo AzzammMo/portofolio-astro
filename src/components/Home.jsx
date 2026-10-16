@@ -11,7 +11,7 @@ const SHAPES = [
 ];
 // Teks wrap berjalan. Ubah isinya di sini.
 const TICKER = [
-  "Ga PHP Ga Makan $",
+  "$ Area",
   "PHP is Koentji",
 ];
 
