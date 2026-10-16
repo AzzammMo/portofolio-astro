@@ -1,0 +1,39 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+import "../styles/sticker.css";
+const { title = "Azzam | Portfolio" } = Astro.props;
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <ClientRouter />
+    <script is:inline>
+      const apply = () => {
+        let t; try { t = localStorage.getItem("theme"); } catch {}
+        document.documentElement.classList.toggle("dark", t === "dark");
+      };
+      apply();
+      document.addEventListener("astro:after-swap", apply);
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("#theme-toggle")) return;
+        const dark = document.documentElement.classList.toggle("dark");
+        try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch {}
+      });
+    </script>
+  </head>
+  <body>
+    <button id="theme-toggle" transition:persist aria-label="Ganti tema"
+      class="k-sticker fixed top-3 right-3 z-50 grid h-10 w-10 place-items-center text-lg transition hover:rotate-12 hover:scale-110 active:scale-90"
+      style="box-shadow:3px 3px 0 var(--ink)">
+      ◐
+    </button>
+    <slot />
+  </body>
+</html>

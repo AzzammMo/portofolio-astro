@@ -12,68 +12,87 @@ function fileEngine() {
   return { start: () => a.play(), stop: () => a.pause(), pause: () => a.pause(), resume: () => a.play() };
 }
 
-/* ---------- mesin 2: lo-fi chiptune dibuat dengan Web Audio ---------- */
-const CHORDS = [[57, 60, 64, 67], [53, 57, 60, 64], [60, 64, 67, 71], [55, 59, 62, 65]]; // Am7 Fmaj7 Cmaj7 G7
-const BASS = [45, 41, 48, 43];
-const PENTA = [69, 72, 74, 76, 79];
-const ARP = [0, 1, 2, 3, 2, 1, 2, 3];
+/* ---------- mesin 2: ambient santai (pad lembut + denting piano + gema) dibuat dengan Web Audio ---------- */
+const CHORDS = [[48, 55, 59, 64], [45, 52, 55, 60], [41, 48, 57, 64], [43, 50, 59, 64]]; // Cmaj7 Am7 Fmaj7 G6
+const PLUCK = [72, 74, 76, 79, 81, 84]; // pentatonik C mayor, nada tinggi yang lembut
 const mtof = (m) => 440 * 2 ** ((m - 69) / 12);
 
 function synthEngine() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const master = ctx.createGain();
   master.gain.value = 0;
-  const lp = ctx.createBiquadFilter();
+  const lp = ctx.createBiquadFilter(); // meredam nada tajam agar hangat
   lp.type = "lowpass";
-  lp.frequency.value = 1800;
+  lp.frequency.value = 1400;
   master.connect(lp);
   lp.connect(ctx.destination);
 
-  const note = (m, t, dur, type, vol) => {
+  // gema (echo) lembut untuk kesan ruang luas
+  const echo = ctx.createDelay(2);
+  echo.delayTime.value = 0.75;
+  const fb = ctx.createGain();
+  fb.gain.value = 0.4;
+  const ef = ctx.createBiquadFilter();
+  ef.type = "lowpass";
+  ef.frequency.value = 1200;
+  const wet = ctx.createGain();
+  wet.gain.value = 0.55;
+  echo.connect(ef);
+  ef.connect(fb);
+  fb.connect(echo);
+  ef.connect(wet);
+  wet.connect(master);
+
+  const tone = (m, t, dur, type, vol, att, toEcho, detune = 0) => {
     const o = ctx.createOscillator();
     const g = ctx.createGain();
     o.type = type;
     o.frequency.value = mtof(m);
+    o.detune.value = detune;
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(vol, t + 0.03);
+    g.gain.linearRampToValueAtTime(vol, t + att);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     o.connect(g);
     g.connect(master);
+    if (toEcho) g.connect(echo);
     o.start(t);
-    o.stop(t + dur + 0.05);
+    o.stop(t + dur + 0.1);
   };
 
-  const eighth = 60 / 84 / 2; // 84 BPM
+  const half = 0.5; // 60 BPM, langkah = setengah ketukan
   let step = 0;
+  let last = -1;
   let next = ctx.currentTime + 0.1;
   const schedule = () => {
     while (next < ctx.currentTime + 0.3) {
-      const bar = Math.floor(step / 8) % 4;
-      const s = step % 8;
-      const ch = CHORDS[bar];
+      const chord = CHORDS[Math.floor(step / 16) % 4]; // tiap akor 8 detik
+      const s = step % 16;
       if (s === 0) {
-        ch.forEach((m) => note(m, next, eighth * 8, "triangle", 0.05));
-        note(BASS[bar], next, eighth * 4, "sine", 0.2);
+        chord.forEach((m, i) => {
+          tone(m, next, 8.5, "sine", i ? 0.05 : 0.12, 2.2, false);
+          if (i) tone(m, next, 8.5, "triangle", 0.018, 2.6, false, 7);
+        });
       }
-      if (s === 4) note(BASS[bar], next, eighth * 3, "sine", 0.14);
-      note(ch[ARP[s]] + 12, next, eighth * 1.6, "square", 0.022);
-      if ((s === 0 || s === 4) && Math.random() < 0.55) {
-        note(PENTA[Math.floor(Math.random() * PENTA.length)], next, eighth * 3, "triangle", 0.045);
+      if (Math.random() < (s === 0 ? 0.6 : 0.26)) {
+        let p;
+        do { p = PLUCK[Math.floor(Math.random() * PLUCK.length)]; } while (p === last);
+        last = p;
+        tone(p, next, 3.2, "sine", 0.07, 0.01, true);
       }
       step++;
-      next += eighth;
+      next += half;
     }
   };
   const id = setInterval(schedule, 100);
 
-  const fade = (v, s) => {
+  const fade = (v, sec) => {
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
-    master.gain.linearRampToValueAtTime(v, ctx.currentTime + s);
+    master.gain.linearRampToValueAtTime(v, ctx.currentTime + sec);
   };
   return {
-    start() { ctx.resume(); fade(0.55, 1.2); },
-    stop() { fade(0, 0.5); setTimeout(() => ctx.suspend(), 600); },
+    start() { ctx.resume(); fade(0.75, 2); },
+    stop() { fade(0, 0.8); setTimeout(() => ctx.suspend(), 900); },
     pause() { ctx.suspend(); },
     resume() { ctx.resume(); },
     destroy() { clearInterval(id); ctx.close(); },
@@ -125,13 +144,13 @@ export default function Music() {
   return (
     <>
       {hint && !on && (
-        <span className="k-sticker k-bob fixed right-[8.2rem] top-5 z-50 hidden px-3 py-1 text-sm font-bold sm:block" style={{ background: "var(--c1)", color: "#1b1b3a", boxShadow: "3px 3px 0 #1b1b3a" }}>
+        <span className="k-sticker k-bob fixed right-16 top-[4.2rem] z-50 hidden px-3 py-0.5 text-xs font-bold sm:block" style={{ background: "var(--c1)", color: "#1b1b3a", boxShadow: "3px 3px 0 #1b1b3a" }}>
           Tap for music →
         </span>
       )}
       <button onClick={on ? stop : start} aria-pressed={on} aria-label={on ? "Matikan musik" : "Nyalakan musik"}
-        className="k-sticker fixed right-20 top-4 z-50 grid h-12 w-12 place-items-center text-xl transition hover:rotate-12 hover:scale-110 active:scale-90"
-        style={{ boxShadow: "4px 4px 0 var(--ink)", background: on ? "var(--c4)" : "var(--card)" }}>
+        className="k-sticker fixed right-3 top-[3.75rem] z-50 grid h-10 w-10 place-items-center text-lg transition hover:rotate-12 hover:scale-110 active:scale-90"
+        style={{ boxShadow: "3px 3px 0 var(--ink)", background: on ? "var(--c4)" : "var(--card)" }}>
         <span className={on ? "k-bob inline-block" : ""}>{on ? "🎵" : "🔇"}</span>
       </button>
     </>
