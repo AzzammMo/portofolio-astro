@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Character from "./Character.jsx";
 import CatCoder from "./CatCoder.jsx";
 
-const ROLES = ["Fullstack Developer", "Web Developer"];
+const ROLES = ["Fullstack Developer"];
 const KINDS = ["chip", "mouse", "keyboard", "floppy"];
 const LETTERS = [["H", "var(--c1)"], ["e", "var(--c2)"], ["y", "var(--c3)"], ["!", "var(--c4)"]];
 const SHAPES = [
