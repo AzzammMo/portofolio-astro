@@ -18,14 +18,6 @@ export const projects = [
     link: "https://github.com/username/project1",
   },
   {
-    id: 1,
-    title: "Website - SobatTani",
-    description:
-      "solutions for creating agricultural regeneration by realizing the competitiveness of young farmers progressing through food and feed technology available on this website.",
-    image: project1,
-    link: "https://github.com/username/project1",
-  },
-  {
     id: 2,
     title: "Website - Inventy",
     description:
